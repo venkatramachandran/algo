@@ -10,17 +10,34 @@ public class Subset {
        catch (ArrayIndexOutOfBoundsException e) {
            throw new IllegalArgumentException();
        }
+       double rnd = 0.0;
+       if (size > 0) {
+           rnd = 1.00d/size;
+       }
        String s = null;
        RandomizedQueue<String> list = new RandomizedQueue<String>();
+       int index = 0;
        while (!StdIn.isEmpty()) {
          s = StdIn.readString();
-         list.enqueue(s);
+         if (index < size) {
+           list.enqueue(s);
+           index++;
+         }
+         else {
+           if (StdRandom.uniform() < rnd) {
+             list.dequeue();
+             list.enqueue(s);
+             index++;
+           }
+         }
        }
        if (size > list.size()) {
            throw new IllegalArgumentException();
        }
-       for (int i = 0; i < size; i++) {
+       if (size > 0) {
+         for (int i = 0; i < size; i++) {
            StdOut.println(list.dequeue());
+         }
        }
    }
 }

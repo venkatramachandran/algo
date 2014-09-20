@@ -32,8 +32,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
        }
        int index = StdRandom.uniform(0, size());
        Item retval = items[index];
-       items[index] = items[size - 1];
-       --size;
+       items[index] = items[size--];
        if (size > 0 && size == items.length/4) {
            resize(items.length/2);
        }
