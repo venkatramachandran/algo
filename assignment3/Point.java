@@ -87,13 +87,9 @@ public class Point implements Comparable<Point> {
         /* DO NOT MODIFY */
         return "(" + x + ", " + y + ")";
     }
+}
 
-    // unit test
-    public static void main(String[] args) {
-        /* YOUR CODE HERE */
-    }
-
-    private class PointComparator implements Comparator<Point> {
+    class PointComparator implements Comparator<Point> {
         private Point x0;
 
         PointComparator(Point x0) {
@@ -117,4 +113,3 @@ public class Point implements Comparable<Point> {
             return retval;
         }
     }
-}
