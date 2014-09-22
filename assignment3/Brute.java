@@ -10,6 +10,9 @@ public class Brute {
        }
        StdDraw.setXscale(0, 32768);
        StdDraw.setYscale(0, 32768);
+       
+       System.out.println("input size:"+100+". will do "+Math.pow(size,4)+" iterations.");
+       long iter = 0;
 
        for (int p = 0; p < size; p++) {
            Point p1 = points[p];
@@ -26,6 +29,10 @@ public class Brute {
                        Point s1 = points[s];
                        double slope3 = p1.slopeTo(s1);
                        s1.draw();
+                       ++iter;
+                       if (iter % 10000 == 0) {
+                         System.out.println(iter+" iterations complete.");
+                       }
                        if (slope1 == slope2 && slope2 == slope3 && slope1 == slope3) {
                            //order the points
                            Point[] sorted = new Point[]{p1, q1, r1, s1};
