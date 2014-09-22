@@ -1,11 +1,12 @@
 public class Brute {
    public static void main(String[] args) {
-       int size = StdIn.readInt();
+       In in = new In(args[0]);
+       int size = in.readInt();
        Point[] points = new Point[size];
        for (int i = 0; i < size; i++) {
-           int x = StdIn.readInt();
-           int y = StdIn.readInt();
-           points[i] = new Point(x,y);
+           int x = in.readInt();
+           int y = in.readInt();
+           points[i] = new Point(x, y);
        }
        StdDraw.setXscale(0, 32768);
        StdDraw.setYscale(0, 32768);
