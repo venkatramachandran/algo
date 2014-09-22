@@ -26,18 +26,19 @@ public class Brute {
                        Point s1 = points[s];
                        double slope3 = p1.slopeTo(s1);
                        s1.draw();
-                       if (slope1 == slope2 && slope2 == slope3) {
+                       if (slope1 == slope2 && slope2 == slope3 && slope1 == slope3) {
                            //order the points
                            Point[] sorted = new Point[]{p1, q1, r1, s1};
                            Insertion.sort(sorted);
                            StdOut.println(sorted[0] + " -> " + sorted[1] + " -> " + sorted[2] + " -> " + sorted[3]);
-                           p1.drawTo(q1);
-                           p1.drawTo(r1);
-                           p1.drawTo(s1);
+                           //p1.drawTo(q1);
+                           //p1.drawTo(r1);
+                           sorted[0].drawTo(sorted[3]);
                        }
                    }
                }
            }
        }
+       System.out.println("done");
    }
 }
