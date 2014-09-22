@@ -73,13 +73,10 @@ public class Point implements Comparable<Point> {
           throw new NullPointerException();
         }
         int retval = 0;
-        if (this.y < that.y) {
+        if (this.y < that.y || (this.y == that.y && this.x < that.x)) {
             retval = -1;
         }
-        else if (this.y == that.y && this.x < that.x) {
-            retval = -1;
-        }
-        else if (this.y == that.y && this.x > that.x) {
+        else if ((this.y > that.y) || (this.y == that.y && this.x > that.x)) {
             retval = 1;
         }
         return retval;
