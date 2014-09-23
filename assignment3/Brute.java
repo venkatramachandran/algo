@@ -32,7 +32,10 @@ public class Brute {
                            //order the points
                            Point[] sorted = new Point[]{p1, q1, r1, s1};
                            Insertion.sort(sorted);
-                           sb.delete(0, sb.length()).append(sorted[0]).append(append).append(sorted[1]).append(append).append(sorted[2]).append(append).append(sorted[3]).append(append);
+                           sb.delete(0, sb.length()).append(sorted[0]).
+                             append(append).append(sorted[1]).append(append).
+                             append(sorted[2]).append(append).append(sorted[3]);
+                           StdOut.println(sb.toString());
                            sorted[0].drawTo(sorted[3]);
                        }
                    }
