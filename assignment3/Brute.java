@@ -1,5 +1,6 @@
 public class Brute {
    public static void main(String[] args) {
+       String append = " -> ";
        In in = new In(args[0]);
        int size = in.readInt();
        Point[] points = new Point[size];
@@ -10,7 +11,8 @@ public class Brute {
        }
        StdDraw.setXscale(0, 32768);
        StdDraw.setYscale(0, 32768);
-       
+       StringBuffer sb = new StringBuffer();
+
        for (int p = 0; p < size; p++) {
            Point p1 = points[p];
            p1.draw();
@@ -30,9 +32,7 @@ public class Brute {
                            //order the points
                            Point[] sorted = new Point[]{p1, q1, r1, s1};
                            Insertion.sort(sorted);
-                           StdOut.println(sorted[0] + " -> " + sorted[1] + " -> " + sorted[2] + " -> " + sorted[3]);
-                           //p1.drawTo(q1);
-                           //p1.drawTo(r1);
+                           sb.delete(0, sb.length()).append(sorted[0]).append(append).append(sorted[1]).append(append).append(sorted[2]).append(append).append(sorted[3]).append(append);
                            sorted[0].drawTo(sorted[3]);
                        }
                    }
