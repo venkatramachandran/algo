@@ -25,56 +25,36 @@ public class Fast {
 
        int index = 0;
        for (Point p : points) {
-         /*if (size - index - 1 > 2) {
-           Point[] arr = new Point[size - index - 1];
-           System.arraycopy(points, index + 1, arr, 0, size - index - 1);
-           java.util.Arrays.sort(arr, p.SLOPE_ORDER);
-           //printArray(p, arr);
-           if (arr.length >= 4 && p.slopeTo(arr[0]) == p.slopeTo(arr[1]) && p.slopeTo(arr[0]) == p.slopeTo(arr[2]) && p.slopeTo(arr[0]) == p.slopeTo(arr[3])) {
-             //System.out.println("Found a 5 match!");
-             Point[] sorted = new Point[]{p, arr[0], arr[1], arr[2], arr[3]};
-             Insertion.sort(sorted);
-             sb.delete(0, sb.length()).append(sorted[0]).
-                             append(append).append(sorted[1]).append(append).
-                             append(sorted[2]).append(append).append(sorted[3])
-                             .append(append).append(sorted[4]);
-             StdOut.println(sb.toString());
-             sorted[0].drawTo(sorted[4]);
-            }
-            else if (arr.length >= 3 && p.slopeTo(arr[0]) == p.slopeTo(arr[1]) && p.slopeTo(arr[0]) == p.slopeTo(arr[2])) {
-             //System.out.println("Found a 4 match!");
-             Point[] sorted = new Point[]{p, arr[0], arr[1], arr[2]};
-             Insertion.sort(sorted);
-             sb.delete(0, sb.length()).append(sorted[0]).
-                             append(append).append(sorted[1]).append(append).
-                             append(sorted[2]).append(append).append(sorted[3]);
-             StdOut.println(sb.toString());
-             sorted[0].drawTo(sorted[3]);
-            }
-         }*/
-
          java.util.Arrays.sort(points, index + 1, points.length, p.SLOPE_ORDER);
-         if (points.length - index > 4 && 
-           p.slopeTo(points[index + 1]) == p.slopeTo(points[index + 2]) && p.slopeTo(points[index + 1]) == p.slopeTo(points[index + 3])
-           && p.slopeTo(points[index + 1]) == p.slopeTo(points[index + 4])) {
-             Point[] sorted = new Point[]{points[index], points[index + 1], points[index + 2], points[index + 3], points[index + 4]};
-             Insertion.sort(sorted);
-             sb.delete(0, sb.length()).append(sorted[0]).
-                             append(append).append(sorted[1]).append(append).
-                             append(sorted[2]).append(append).append(sorted[3])
-                             .append(append).append(sorted[4]);
-             StdOut.println(sb.toString());
-             sorted[0].drawTo(sorted[4]);
-         }
-         else if (points.length - index > 3 && 
-           p.slopeTo(points[index + 1]) == p.slopeTo(points[index + 2]) && p.slopeTo(points[index + 1]) == p.slopeTo(points[index + 3])) {
-             Point[] sorted = new Point[]{points[index], points[index + 1], points[index + 2], points[index + 3]};
-             Insertion.sort(sorted);
-             sb.delete(0, sb.length()).append(sorted[0]).
-                             append(append).append(sorted[1]).append(append).
-                             append(sorted[2]).append(append).append(sorted[3]);
-             StdOut.println(sb.toString());
-             sorted[0].drawTo(sorted[3]);
+         double processingSlope = Double.NaN;
+
+         for (int innerIndex = index; innerIndex < points.length; innerIndex++) {
+           if (points.length - innerIndex > 4 && 
+             p.slopeTo(points[innerIndex + 1]) == p.slopeTo(points[innerIndex + 2]) && p.slopeTo(points[innerIndex + 1]) == p.slopeTo(points[innerIndex + 3])
+             && p.slopeTo(points[innerIndex + 1]) == p.slopeTo(points[innerIndex + 4])
+             && (processingSlope != Double.NaN && processingSlope != p.slopeTo(points[innerIndex + 1]))) {
+               Point[] sorted = new Point[]{points[index], points[innerIndex + 1], points[innerIndex + 2], points[innerIndex + 3], points[innerIndex + 4]};
+               Insertion.sort(sorted);
+               sb.delete(0, sb.length()).append(sorted[0]).
+                               append(append).append(sorted[1]).append(append).
+                               append(sorted[2]).append(append).append(sorted[3])
+                               .append(append).append(sorted[4]);
+               StdOut.println(sb.toString());
+               sorted[0].drawTo(sorted[4]);
+               processingSlope = p.slopeTo(points[innerIndex + 1]);
+           }
+           else if (points.length - innerIndex > 3 && 
+             p.slopeTo(points[innerIndex + 1]) == p.slopeTo(points[innerIndex + 2]) && p.slopeTo(points[innerIndex + 1]) == p.slopeTo(points[innerIndex + 3])
+             && (processingSlope != Double.NaN && processingSlope != p.slopeTo(points[innerIndex + 1]))) {
+               Point[] sorted = new Point[]{points[index], points[innerIndex + 1], points[innerIndex + 2], points[innerIndex + 3]};
+               Insertion.sort(sorted);
+               sb.delete(0, sb.length()).append(sorted[0]).
+                               append(append).append(sorted[1]).append(append).
+                               append(sorted[2]).append(append).append(sorted[3]);
+               StdOut.println(sb.toString());
+               sorted[0].drawTo(sorted[3]);
+               processingSlope = p.slopeTo(points[innerIndex + 1]);
+           }
          }
          ++index;
       }
