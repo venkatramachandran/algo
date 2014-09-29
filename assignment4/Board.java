@@ -37,6 +37,7 @@ public class Board {
 
     public int manhattan() {
       if (manhattanScore == -1) {
+        manhattanScore = 0;
         for (int i = 0; i < dimension; i++) {
           for (int j = 0; j < dimension; j++) {
             if ((board[i][j] != 0) && (i*dimension + j + 1) != board[i][j]) {
