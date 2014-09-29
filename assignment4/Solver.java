@@ -3,8 +3,14 @@ public class Solver {
     private int moves = 0;
     private boolean solvable = false;
     private java.util.LinkedList<Board> solution;
-
+    
+    private static final java.util.Comparator<Board> CMP = new java.util.Comparator<Board>(){
+      public int compare(Board b1, Board b2) {
+        return (int)Math.signum(b1.manhattan() - b2.manhattan());
+      }
+    };
     public Solver(Board initial) {
+      
       solvable = true;
 
       solution = new java.util.LinkedList<Board>();
@@ -13,11 +19,11 @@ public class Solver {
       Board prev = null;
       Board prev1 = null;
       
-      MinPQ<Board> q = new MinPQ<Board>();
+      MinPQ<Board> q = new MinPQ<Board>(CMP);
       Board b = initial;
       q.insert(b);
       
-      MinPQ<Board> q1 = new MinPQ<Board>();
+      MinPQ<Board> q1 = new MinPQ<Board>(CMP);
       Board b1 = b.twin();
       q1.insert(b1);
       

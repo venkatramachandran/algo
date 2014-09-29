@@ -1,8 +1,8 @@
-public class Board implements Comparable<Board>{
+public class Board{
     private static final String SPACE = " ";
     private static final String NEWLINE = "\n";
 
-    private int[][] board;
+    final int[][] board;
     private int dimension;
 
     /**
@@ -73,10 +73,6 @@ public class Board implements Comparable<Board>{
       return retVal;
     }
 
-    public int get(int x, int y) {
-      return board[x][y];
-    }
-
     public Board twin() {
       int[][] newboard = new int[dimension][dimension];
       int zero_row = -1;
@@ -117,7 +113,7 @@ public class Board implements Comparable<Board>{
       outer:
       for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
-          if (board[i][j] != that.get(i,j)) {
+          if (board[i][j] != that.board[i][j]) {
             retVal = false;
             break outer;
           }
@@ -189,10 +185,6 @@ public class Board implements Comparable<Board>{
         newboard[zero_x][zero_y + 1] = temp;
       }
       return q;
-    }
-
-    public int compareTo(Board that) {
-      return (int)Math.signum(this.manhattan() - that.manhattan());
     }
 
     public String toString() {
