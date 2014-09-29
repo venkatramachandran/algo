@@ -2,7 +2,7 @@ public class Board{
     private static final String SPACE = " ";
     private static final String NEWLINE = "\n";
 
-    final int[][] board;
+    private final int[][] board;
     private int dimension;
 
     /**
@@ -106,7 +106,7 @@ public class Board{
         return false;
       }
       Board that = (Board)y;
-      if (dimension != that.dimension) {
+      if (dimension != that.dimension()) {
         return false;
       }
       boolean retVal = true;
