@@ -16,6 +16,7 @@ public class Board {
           board[i][j] = blocks[i][j];
         }
       }
+      manhattanScore = manhattan();
     }
 
     public int dimension() {
@@ -78,26 +79,33 @@ public class Board {
     public Board twin() {
       int[][] newboard = new int[dimension][dimension];
       int zeroRow = -1;
+      int zeroCol = -1;
       for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
           newboard[i][j] = board[i][j];
           if (newboard[i][j] == 0) {
             zeroRow = i;
+            zeroCol = j;
           }
         }
       }
-      if (zeroRow != 0) {
-        //swap the first 2 elements in the first row
-        int temp = newboard[0][0];
-        newboard[0][0] = newboard[0][1];
-        newboard[0][1] = temp;
+
+      int swapx = -1;
+      int swapy = 0;
+
+      if (zeroRow == 0) {
+        swapx = 1;
       }
-      else if (zeroRow == 0) {
-        //swap the first 2 elements in the last row
-        int temp = newboard[dimension - 1][0];
-        newboard[dimension - 1][0] = newboard[dimension - 1][1];
-        newboard[dimension - 1][1] = temp;
+      else if (zeroRow == dimension - 1) {
+        swapx = dimension - 2;
       }
+      else {
+        swapx = zeroRow + 1;
+      }
+
+      int temp = newboard[swapx][swapy];
+      newboard[swapx][swapy] = newboard[swapx][swapy + 1];
+      newboard[swapx][swapy + 1] = temp;
 
       Board b = new Board(newboard);
       return b;
@@ -126,9 +134,12 @@ public class Board {
 
     public Iterable<Board> neighbors() {
       java.util.LinkedList<Board> q = new java.util.LinkedList<Board>();
+      Board left = null, right = null, top = null, bottom = null;
+
       int[][] newboard = new int[dimension][dimension];
       int zeroX = -1;
       int zeroY = -1;
+      int temp = -1;
       for (int i = 0; i < dimension; i++) {
         for (int j = 0; j < dimension; j++) {
           newboard[i][j] = board[i][j];
@@ -138,13 +149,41 @@ public class Board {
           }
         }
       }
+
+      //right
+      if (zeroY + 1 < dimension) {
+        temp = newboard[zeroX][zeroY];
+        newboard[zeroX][zeroY] = newboard[zeroX][zeroY + 1];
+        newboard[zeroX][zeroY + 1] = temp;
+
+        right = new Board(newboard);
+
+        temp = newboard[zeroX][zeroY];
+        newboard[zeroX][zeroY] = newboard[zeroX][zeroY + 1];
+        newboard[zeroX][zeroY + 1] = temp;
+      }
+
+      //left
+      if (zeroY - 1 >= 0) {
+        temp = newboard[zeroX][zeroY];
+        newboard[zeroX][zeroY] = newboard[zeroX][zeroY - 1];
+        newboard[zeroX][zeroY - 1] = temp;
+
+        left = new Board(newboard);
+
+        temp = newboard[zeroX][zeroY];
+        newboard[zeroX][zeroY] = newboard[zeroX][zeroY - 1];
+        newboard[zeroX][zeroY - 1] = temp;
+      }
+
       //top
       if (zeroX - 1 >= 0) {
-        int temp = newboard[zeroX][zeroY];
+        temp = newboard[zeroX][zeroY];
         newboard[zeroX][zeroY] = newboard[zeroX - 1][zeroY];
         newboard[zeroX - 1][zeroY] = temp;
-        Board top = new Board(newboard);
-        q.add(top);
+
+        top = new Board(newboard);
+
         temp = newboard[zeroX][zeroY];
         newboard[zeroX][zeroY] = newboard[zeroX - 1][zeroY];
         newboard[zeroX - 1][zeroY] = temp;
@@ -153,39 +192,22 @@ public class Board {
 
       //bottom
       if (zeroX + 1 < dimension) {
-        int temp = newboard[zeroX][zeroY];
+        temp = newboard[zeroX][zeroY];
         newboard[zeroX][zeroY] = newboard[zeroX + 1][zeroY];
         newboard[zeroX + 1][zeroY] = temp;
-        Board bottom = new Board(newboard);
-        q.add(bottom);
+
+        bottom = new Board(newboard);
+
         temp = newboard[zeroX][zeroY];
         newboard[zeroX][zeroY] = newboard[zeroX + 1][zeroY];
         newboard[zeroX + 1][zeroY] = temp;
       }
 
-      //left
-      if (zeroY - 1 >= 0) {
-        int temp = newboard[zeroX][zeroY];
-        newboard[zeroX][zeroY] = newboard[zeroX][zeroY - 1];
-        newboard[zeroX][zeroY - 1] = temp;
-        Board left = new Board(newboard);
-        q.add(left);
-        temp = newboard[zeroX][zeroY];
-        newboard[zeroX][zeroY] = newboard[zeroX][zeroY - 1];
-        newboard[zeroX][zeroY - 1] = temp;
-      }
+      if (left != null) q.add(left);
+      if (right != null) q.add(right);
+      if (top != null) q.add(top);
+      if (bottom != null) q.add(bottom);
 
-      //right
-      if (zeroY + 1 < dimension) {
-        int temp = newboard[zeroX][zeroY];
-        newboard[zeroX][zeroY] = newboard[zeroX][zeroY + 1];
-        newboard[zeroX][zeroY + 1] = temp;
-        Board right = new Board(newboard);
-        q.add(right);
-        temp = newboard[zeroX][zeroY];
-        newboard[zeroX][zeroY] = newboard[zeroX][zeroY + 1];
-        newboard[zeroX][zeroY + 1] = temp;
-      }
       return q;
     }
 
