@@ -37,11 +37,11 @@ public class Solver {
             solvable = true;
             moves = s.getMoves();
             solution = new java.util.LinkedList<Board>();
-            while (s != null) {
-              solution.push(s.getBoard());
+            do {
+              solution.addFirst(s.getBoard());
               s = s.getPrev();
-            }
-            java.util.Collections.reverse(solution);
+            } while (s != null);
+            
           }
           break;
         }
