@@ -11,12 +11,6 @@ public class Solver {
     private java.util.LinkedList<Board> solution;
 
     public Solver(Board initial) {
-
-      solvable = true;
-
-      solution = new java.util.LinkedList<Board>();
-      java.util.LinkedList<Board> solution1 = new java.util.LinkedList<Board>();
-
       MinPQ<SearchNode> q = new MinPQ<SearchNode>(CMP);
       Board b = initial;
       q.insert(new SearchNode(b, 0, null));
@@ -33,30 +27,37 @@ public class Solver {
         Board c = s.getBoard();
         Board c1 = s1.getBoard();
 
-        while (!q.isEmpty()) q.delMin();
-        while (!q1.isEmpty()) q1.delMin();
-
-        solution.add(c);
-        solution1.add(c1);
-
         if (c.isGoal() || c1.isGoal())  {
           if (c1.isGoal()) {
             solvable = false;
             moves = -1;
             solution = null;
           }
+          else {
+            solvable = true;
+            moves = s.getMoves();
+            solution = new java.util.LinkedList<Board>();
+            while (s.getPrev() != null) {
+              solution.push(s.getBoard());
+              s = s.getPrev();
+            }
+            java.util.Collections.reverse(solution);
+          }
           break;
         }
         else {
-          ++moves;
           for (Board x : c.neighbors()) {
             if (s.getPrev() == null || (s.getPrev() != null && !x.equals(s.getPrev()))) {
-              q.insert(new SearchNode(x, moves, c));
+              SearchNode xn = new SearchNode(x, s.getMoves() + 1, s);
+              q.insert(xn);
+              s.addNext(xn);
             }
           }
           for (Board x1 : c1.neighbors()) {
             if (s1.getPrev() == null || (s1.getPrev() != null && !x1.equals(s1.getPrev()))) {
-              q1.insert(new SearchNode(x1, moves, c1));
+              SearchNode x1n = new SearchNode(x1, s1.getMoves() + 1, s1);
+              q1.insert(x1n);
+              s1.addNext(x1n);
             }
           }
         }
@@ -106,12 +107,14 @@ public class Solver {
     private class SearchNode {
       private Board board;
       private int moves;
-      private Board prev;
+      private SearchNode prev;
+      private java.util.List<SearchNode> next;
 
-      public SearchNode(Board b, int m, Board p) {
+      public SearchNode(Board b, int m, SearchNode p) {
         this.board = b;
         this.moves = m;
         this.prev = p;
+        this.next = null;
       }
 
       public int getMoves() {
@@ -122,8 +125,26 @@ public class Solver {
         return board;
       }
 
-      public Board getPrev() {
+      public SearchNode getPrev() {
         return prev;
+      }
+
+      public void setPrev(SearchNode p) {
+        prev = p;
+      }
+
+      public void addNext(SearchNode n) {
+        if (next == null) {
+          next = new java.util.ArrayList<SearchNode>();
+        }
+        if (n.getPrev() == null) {
+          n.setPrev(this);
+        }
+        next.add(n);
+      }
+
+      public java.util.List<SearchNode> getNext() {
+        return next;
       }
     }
 }
