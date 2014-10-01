@@ -37,7 +37,7 @@ public class Solver {
             solvable = true;
             moves = s.getMoves();
             solution = new java.util.LinkedList<Board>();
-            while (s.getPrev() != null) {
+            while (s != null) {
               solution.push(s.getBoard());
               s = s.getPrev();
             }
