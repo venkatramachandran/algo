@@ -47,14 +47,14 @@ public class Solver {
         }
         else {
           for (Board x : c.neighbors()) {
-            if (s.getPrev() == null || (s.getPrev() != null && !x.equals(s.getPrev()))) {
+            if (s.getPrev() == null || (s.getPrev() != null && !x.equals(s.getPrev().getBoard()))) {
               SearchNode xn = new SearchNode(x, s.getMoves() + 1, s);
               q.insert(xn);
               s.addNext(xn);
             }
           }
           for (Board x1 : c1.neighbors()) {
-            if (s1.getPrev() == null || (s1.getPrev() != null && !x1.equals(s1.getPrev()))) {
+            if (s1.getPrev() == null || (s1.getPrev() != null && !x1.equals(s1.getPrev().getBoard()))) {
               SearchNode x1n = new SearchNode(x1, s1.getMoves() + 1, s1);
               q1.insert(x1n);
               s1.addNext(x1n);
