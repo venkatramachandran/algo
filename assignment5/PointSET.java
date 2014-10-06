@@ -1,14 +1,14 @@
 public class PointSET {
-   
-   // construct an empty set of points 
+
+   // construct an empty set of points
    public PointSET() {
    }
 
-   // is the set empty? 
+   // is the set empty?
    public boolean isEmpty() {
    }
 
-   // number of points in the set 
+   // number of points in the set
    public int size() {
    }
 
@@ -16,23 +16,23 @@ public class PointSET {
    public void insert(Point2D p) {
    }
 
-   // does the set contain point p? 
+   // does the set contain point p?
    public boolean contains(Point2D p) {
    }
 
-   // draw all points to standard draw 
+   // draw all points to standard draw
    public void draw() {
    }
- 
-   // all points that are inside the rectangle 
+
+   // all points that are inside the rectangle
    public Iterable<Point2D> range(RectHV rect) {
    }
 
-   // a nearest neighbor in the set to point p; null if the set is empty 
+   // a nearest neighbor in the set to point p; null if the set is empty
    public Point2D nearest(Point2D p) {
    }
 
-   // unit testing of the methods (optional) 
+   // unit testing of the methods (optional)
    public static void main(String[] args) {
    }
 }
