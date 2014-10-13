@@ -114,39 +114,50 @@ public class KdTree {
        return null;
      }
      else {
-       //TODO
-       return null;
+       java.util.Stack<Node> nodes = new java.util.Stack<Node>();
+       double least_distance = head.getPoint().distanceSquaredTo(p);
+       Point2D retVal = head.getPoint();
+       if (head.getLeft() != null) nodes.push(head.getLeft());
+       if (head.getRight() != null) nodes.push(head.getRight());
+       while (!nodes.isEmpty()) {
+         Node n = nodes.pop();
+         double rect_distance = n.getRect().distanceSquaredTo(p);
+         if (rect_distance < least_distance) {
+           least_distance = n.getPoint().distanceSquaredTo(p);
+           retVal = n.getPoint();
+
+           int cmp = n.getXLevel() ? X_ORDER.compare(p, n.getPoint()) : Y_ORDER.compare(p, n.getPoint());
+           if (cmp < 0) {
+             if (n.getLeft() != null) nodes.push(n.getLeft());
+             if (n.getRight() != null) nodes.push(n.getRight());
+           }
+           else if (cmp > 0) {
+             if (n.getRight() != null) nodes.push(n.getRight());
+             if (n.getLeft() != null) nodes.push(n.getLeft());
+           }
+           else {
+             return n.getPoint();
+           }
+         }
+       }
+       return retVal;
      }
    }
 
    // unit testing of the methods (optional)
    public static void main(String[] args) {
-     In in = new In(args[0]);
+     String filename = args[0];
+     In in = new In(filename);
      KdTree kdtree = new KdTree();
      while (!in.isEmpty()) {
-       double x = in.readDouble();
-       double y = in.readDouble();
-       Point2D p = new Point2D(x, y);
-       kdtree.insert(p);
+         double x = in.readDouble();
+         double y = in.readDouble();
+         Point2D p = new Point2D(x, y);
+         kdtree.insert(p);
      }
      kdtree.draw();
+     kdtree.nearest(new Point2D(0.14,0.0));
    }
-
-    private static class DistanceToOrder implements java.util.Comparator<Point2D> {
-        private Point2D orig;
-
-        public DistanceToOrder(Point2D orig) {
-          this.orig = orig;
-        }
-
-        public int compare(Point2D p, Point2D q) {
-            double dist1 = orig.distanceSquaredTo(p);
-            double dist2 = orig.distanceSquaredTo(q);
-            if      (dist1 < dist2) return -1;
-            else if (dist1 > dist2) return +1;
-            else                    return  0;
-        }
-    }
 
     // compare points according to their x-coordinate
     private static class XOrder implements Comparator<Point2D> {
