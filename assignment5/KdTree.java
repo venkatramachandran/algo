@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.List;
 
 public class KdTree {
 
@@ -91,7 +92,19 @@ public class KdTree {
    // all points that are inside the rectangle
    public Iterable<Point2D> range(RectHV rect) {
      java.util.ArrayList<Point2D> range = new java.util.ArrayList<Point2D>();
-     //TODO
+     java.util.Stack<Node> nodes = new java.util.Stack<Node>();
+     if (head.getLeft() != null) nodes.push(head.getLeft());
+     if (head.getRight() != null) nodes.push(head.getRight());
+     while (!nodes.isEmpty()) {
+       Node n = nodes.pop();
+       if (n.getRect().intersects(rect)) {
+         if (rect.contains(n.getPoint())) {
+           range.add(n.getPoint());
+         }
+         if (n.getLeft() != null) nodes.push(n.getLeft());
+         if (n.getRight() != null) nodes.push(n.getRight());
+       }
+     }
      return range;
    }
 
