@@ -51,7 +51,7 @@ public class PointSET {
        return null;
      }
      else {
-       java.util.TreeSet<Point2D> list = new java.util.TreeSet<Point2D>(p.DISTANCE_TO_ORDER);
+       java.util.TreeSet<Point2D> list = new java.util.TreeSet<Point2D>(new DistanceToOrder(p));
        list.addAll(points);
        return list.first();
      }
@@ -60,4 +60,20 @@ public class PointSET {
    // unit testing of the methods (optional)
    public static void main(String[] args) {
    }
+
+    private class DistanceToOrder implements java.util.Comparator<Point2D> {
+        private Point2D orig;
+
+        public DistanceToOrder(Point2D orig) {
+          this.orig = orig;
+        }
+
+        public int compare(Point2D p, Point2D q) {
+            double dist1 = orig.distanceSquaredTo(p);
+            double dist2 = orig.distanceSquaredTo(q);
+            if      (dist1 < dist2) return -1;
+            else if (dist1 > dist2) return +1;
+            else                    return  0;
+        }
+    }
 }
