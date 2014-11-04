@@ -156,7 +156,8 @@ public class KdTree {
          kdtree.insert(p);
      }
      kdtree.draw();
-     kdtree.nearest(new Point2D(0.14,0.0));
+     //kdtree.nearest(new Point2D(0.14,0.0));
+     System.out.println(kdtree.size());
    }
 
     // compare points according to their x-coordinate
